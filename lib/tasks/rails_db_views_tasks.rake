@@ -43,11 +43,3 @@ namespace :db do
     apply_to config.functions_paths, config.functions_extension, :drop, RailsDbViews::Function
   end
 end
-
-require 'rake/hooks'
-
-Rails.configuration.rails_db_views.migration_tasks.each do |task|
-  before(task){ Rake::Task['db:drop_views'].invoke }
-  before(task){ Rake::Task['db:create_functions'].invoke }
-  after(task){ Rake::Task['db:create_views'].invoke }
-end
